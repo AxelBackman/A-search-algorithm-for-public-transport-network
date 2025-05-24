@@ -1,3 +1,5 @@
+# A* search algorithm for public transport network
+
 Resources contains 1 days data from SL, Stockholm, Sweden's public transport network.
 
 Src contains code to read the files, create Stop objects that represent nodes and edges between the stops.
