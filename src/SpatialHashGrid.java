@@ -39,7 +39,7 @@ public class SpatialHashGrid {
         return cellLat + "," + cellLon;
     }
     public double calculateDistance(Stop stop1, Stop stop2) {
-        final double EARTH_RADIUS = 6371000; // radie i meter
+        final double EARTH_RADIUS = 6371000; 
         double lat1 = Math.toRadians(stop1.getY());
         double lon1 = Math.toRadians(stop1.getX());
         double lat2 = Math.toRadians(stop2.getY());
@@ -56,7 +56,7 @@ public class SpatialHashGrid {
         return EARTH_RADIUS * c; 
     }
     public double calculateWalkingTime(double distance) {
-        return distance / WALKING_SPEED; // Tid i sekunder
+        return distance / WALKING_SPEED;
     }
     
 
