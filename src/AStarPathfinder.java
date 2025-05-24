@@ -3,6 +3,8 @@ import java.util.*;
 public class AStarPathfinder {
 	
 	private static final int MIN_TRANSFER_TIME = 3;
+	private static final double MAX_SPEED = 15.0;
+	
 	
 	/**
 	 * Implements the A* search algorithm to find the shortest path in SL public transport network. 
@@ -14,6 +16,8 @@ public class AStarPathfinder {
 	 * @param adjList     The adjacency list representing the transport network.
 	 * @return A list of edges representing the shortest path from start to goal at a certain start time whilst adhering to a time schedule, or null if no path is found.
 	 */
+	
+	
 	
 	public static List<Edge> findShortestPath(Stop start, Stop goal, int currentTime, Map<Stop, List<Edge>> adjList) {
 	    Map<Stop, Integer> bestTime = new HashMap<>();
@@ -102,19 +106,14 @@ public class AStarPathfinder {
      * 
      * @param 	from, stop1, its coordinates is from where we start calculating distance.
      * @param 	to, stop2, its coordinates is from where we end the calculation of distance.
-     * @return the Euclidean distance.
+     * @return An estimated time to travel the Euclidean distance.
      */
     
     
     private static double calculateHeuristic(Stop from, Stop to) {
         double dx = from.getX() - to.getX();
         double dy = from.getY() - to.getY();
-        return Math.sqrt(dx * dx + dy * dy);
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        return distance / MAX_SPEED; 
     }
-    
-
-    
-
-
-    
 }
