@@ -2,9 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class FileReader {
-	/*
-	* På grund av SRP - Single responsibility principle skapar vi en separat klass för att läsa in datat vid körning.
-	*/
 	
 	private Map<Long, String> headSigns;
 	private SpatialHashGrid spatialHashGrid;
@@ -30,11 +27,11 @@ public class FileReader {
 			File file = new File(fileName);
 			
 			if (!file.exists()) {
-                throw new FileNotFoundException("Filen hittades inte: " + file.getAbsolutePath());
+                throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
             }
 			
         	BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(file));
-        	bufferedReader.readLine(); // skippa första raden
+        	bufferedReader.readLine();
             
             String line;
             List<Stop> allStations = new ArrayList<>();
@@ -52,7 +49,7 @@ public class FileReader {
             	graph.addStation(stop);
             	allStations.add(stop);
             	
-            	spatialHashGrid.addStop(stop); // add to grid + check if there are neighbors in cell + create edges between neighbors
+            	spatialHashGrid.addStop(stop); 
             	
             }
             bufferedReader.close();
@@ -60,42 +57,34 @@ public class FileReader {
             
             
         } catch (FileNotFoundException e) {
-            System.out.println("Filen kunde inte hittas: " + e.getMessage());
+            System.out.println("File not found: " + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Ett IO-fel inträffade: " + e.getMessage());
+            System.out.println("An IO-error occured: " + e.getMessage());
             e.printStackTrace();
         }
 		return null;
 	}
 	     
-	
-	
-	/*
-	 * Gör klart denna, skapa map i edge?
-	 * 
-	 */
 	public void createHeadSigns(String fileName, Graph graph) {
 		try {
 			File file = new File(fileName);
 		
 			if (!file.exists()) {
-				throw new FileNotFoundException("Filen hittades inte: " + file.getAbsolutePath());
+				throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
 			}
 			
 			BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(file));
-			bufferedReader.readLine(); // skippa första raden
+			bufferedReader.readLine();
         
 			String line = "";
         
         
 			while ((line = bufferedReader.readLine()) != null) {
-				// Detta är inläsningen
 				String [] parts = line.split(",");
 				
                 if (parts.length != 5) {
-                    // Om raden inte har tillräckligt med data, fortsätt till nästa rad
-                    System.out.println("Felaktig rad: " + line);
+                    System.out.println("Inccorect line: " + line);
                     continue;
                 }
 				Long tripId = Long.parseLong(parts[2].trim());
@@ -107,7 +96,7 @@ public class FileReader {
 			bufferedReader.close();
         	
 		} catch (IOException e) { 
-			System.out.println("Fel vid inläsning av headSigns");
+			System.out.println("Error reading headSigns");
 		}
 	}
 	
@@ -121,25 +110,24 @@ public class FileReader {
                 throw new FileNotFoundException("Filen hittades inte: " + file.getAbsolutePath());
 			}
 			BufferedReader bufferedReader = new BufferedReader(new java.io.FileReader(file));
-            bufferedReader.readLine(); // skippa första raden - instruktionerna.
+            bufferedReader.readLine(); 
             
             String previousStop = "";
             String currentStop = "";
             List<Edge> trip = new ArrayList<>();
 
             while ((currentStop = bufferedReader.readLine()) != null) {
-            	// Detta är inläsningen
             	String [] currentTripParts = currentStop.split(",");
-            	int isLastStation = Integer.parseInt(currentTripParts[5].trim()); // sista stationen har = 1
-            	int isFirstStation = Integer.parseInt(currentTripParts[6].trim()); //första stationen har = 1
+            	int isLastStation = Integer.parseInt(currentTripParts[5].trim()); 
+            	int isFirstStation = Integer.parseInt(currentTripParts[6].trim()); 
             	
-            	if (isFirstStation == 1) { //Första stationen, inget händer
+            	if (isFirstStation == 1) { 
             		previousStop = currentStop;
             		
             	}
             	
-            	if (isLastStation == 1) { //Sista stationen på en linje - skapa kant + trip
-            		Edge lastEdge = createEdge(previousStop, currentStop, graph); // creates and return edge;
+            	if (isLastStation == 1) { 
+            		Edge lastEdge = createEdge(previousStop, currentStop, graph); 
             		trip.add(lastEdge);
 
             		createTrip(currentStop, trip, lastEdge);
@@ -147,7 +135,7 @@ public class FileReader {
             		trip.clear();
             	}
             	
-            	else if (isFirstStation == 0 && isLastStation == 0) { //not first station nor last
+            	else if (isFirstStation == 0 && isLastStation == 0) { 
             		Edge newEdge = createEdge(previousStop, currentStop, graph);
             		trip.add(newEdge);
             		previousStop = currentStop;
@@ -158,14 +146,13 @@ public class FileReader {
             bufferedReader.close();
             
 		} catch (IOException e) { 
-			System.out.println("Fel vid inläsning");
+			System.out.println("Error reading");
 		}
     	
     }
 	
 	public Edge createEdge(String previousStop, String currentStop, Graph graph) {
-		//FROM = previousStop
-		//TO = currentStop
+
 		String [] previousStopInfo = previousStop.split(",");
 		
 		long tripId = Long.parseLong(previousStopInfo[0].trim());
@@ -181,7 +168,6 @@ public class FileReader {
 		String currentDepartureTimeString = currentStopInfo[2].trim();
 		Stop currentStation = graph.getStationById(Integer.parseInt(currentStopInfo[3].trim()));
 		int currentStopInOrder = Integer.parseInt(currentStopInfo[4].trim());
-		//create new edge between the stops
 		Edge newEdge = new Edge(
 				tripId, 
 				previousStation,
@@ -194,8 +180,8 @@ public class FileReader {
 				currentStopInOrder
 				);
 		
-		previousStation.addEdge(newEdge); // add edge for stop objects adj list
-		graph.addStation(previousStation, newEdge); // add station for graph
+		previousStation.addEdge(newEdge);
+		graph.addStation(previousStation, newEdge); 
 		
 		return newEdge;
 		
@@ -214,7 +200,6 @@ public class FileReader {
 		int arrivalTime = lastEdge.getDestinationArrivalTime();
 		int timeSpent = arrivalTime-departureTime;
 		
-		// Create new trip based on all the edges
 		Trip newTrip = new Trip(
 				amountOfStops,
 				departureTimeString,
@@ -228,9 +213,7 @@ public class FileReader {
 				arrivalTime
 				);
 	}
-	
 
-    
     public int timeFormat (String time){
     	int timeDifference = 0;
     	String [] parts = time.split(":");
