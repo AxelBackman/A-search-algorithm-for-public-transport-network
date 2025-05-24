@@ -6,8 +6,8 @@ import java.util.Map.Entry;
 public class Graph {
 	private Map<Stop, List<Edge>> adjList;
 	private Map<Integer, Stop> stopsById; 
-	private Map<String, Stop> stopsByName; // map för snabbare sökningar på namn
-	private Map<Stop, Stop> stops; // första avgången från en nod
+	private Map<String, Stop> stopsByName; // map to search faster by name
+	private Map<Stop, Stop> stops; 
 	private List<String> stopNames;
 	
 	public Graph() { 
@@ -56,7 +56,7 @@ public class Graph {
 				amountOfStations++;
 			}
 		}
-		System.out.println("Antalet kanter: " + amountOfStations);
+		System.out.println("Amount of edges: " + amountOfStations);
 	}
 	
 	
