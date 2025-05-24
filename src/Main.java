@@ -11,11 +11,11 @@ public class Main {
     	SpatialHashGrid spatialHashGrid = new SpatialHashGrid(graph);
     	FileReader fileReader = new FileReader(spatialHashGrid, graph);
     	
-    	//ÄNDRA FILSÖKVÄG OM DU VILL LADDA IN DATA
+    	//change filepath to read data
     	fileReader.createGraphFromFile("resources/sl_stops.txt", "resources/sl_stop_times.txt", "resources/sl_trips.txt", graph);
     	
     	
-    	// ÄNDRA NEDANSTÅENDE FÖR KÖRNINGAR. TIME = MINUTER EFTER MIDNATT, 600 = 10:00
+    	// change station below to run algorithm. TIME = minutes past midnight, 600 = 10:00 (10 am)
     	
     	String from = "Abrahamsberg T-bana";
     	String to = "Gubbängen T-bana";
@@ -84,17 +84,15 @@ public class Main {
         return timeDifference;
     }
 
-    public static List<Trip> processEdgesToPaths(List<Edge> edges) {
-		// edges.sort(Comparator.comparingInt(Edge::getToStopInOrder)); - om vi vill i framtiden sortera stoppen i rätt ordning för UI
-		
+    public static List<Trip> processEdgesToPaths(List<Edge> edges) {		
 		List<Trip> allTrips = new ArrayList<>();
-	    Map<Long, List<Edge>> trips = new HashMap<>(); // k = triId, value = kanterna som tillhör trippen.
-	    Map<Long, Integer> timeSpent = new HashMap<>(); // map för att logga vikten av varje edge
+	    Map<Long, List<Edge>> trips = new HashMap<>(); 
+	    Map<Long, Integer> timeSpent = new HashMap<>(); 
 	    
 	    
 	    for (Edge edge : edges) {
-	    	trips.computeIfAbsent(edge.getTripId(), k -> new ArrayList<>()).add(edge); // lägg till alla kanter som tillhör samma tripId
-	    	timeSpent.put(edge.getTripId(), timeSpent.getOrDefault(edge.getTripId(), 0) + edge.getWeight()); //lägg till tripd id , += vikten
+	    	trips.computeIfAbsent(edge.getTripId(), k -> new ArrayList<>()).add(edge); 
+	    	timeSpent.put(edge.getTripId(), timeSpent.getOrDefault(edge.getTripId(), 0) + edge.getWeight()); 
 	    }
 	    
 	    for(Map.Entry<Long, List<Edge>> entry : trips.entrySet()) {
@@ -106,8 +104,7 @@ public class Main {
 	    	Edge firstEdge = tripEdges.get(0);
 	    	Edge lastEdge = tripEdges.get(tripEdges.size()-1);
 	    	
-	    	int amountOfStops = (lastEdge.getToStopInOrder() - firstEdge.getToStopInOrder()+1); // +1 för att vi saknar getFromStopInOrder så den räknar först från andra stationen.
-	    	String departure = firstEdge.getDepartureTimeString();
+	    	int amountOfStops = (lastEdge.getToStopInOrder() - firstEdge.getToStopInOrder()+1);
 	    	int time = timeSpent.get(key);
 	    	long tripId = key;
 	    	Stop from = firstEdge.getFrom();
