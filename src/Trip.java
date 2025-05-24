@@ -1,11 +1,5 @@
 import java.util.*;
 
-/*
- * 
- * this class represents trips
- * busslinjer, tunnelbanelinjer osv.
- */
-
 public class Trip {
 	
 	private int time;
@@ -13,7 +7,7 @@ public class Trip {
 	private Stop from;
 	private Stop to;
 	private List<Edge> edges;
-	private Map<Integer, Edge> edgeMap; // map där nyckeln är nr av stoppet och vilket kant det representerar - ingen funktionalitet byggd nu.
+	private Map<Integer, Edge> edgeMap;
 	private String departureTime;
 	private int amountOfStops;
 	private String headSign;
@@ -73,7 +67,7 @@ public class Trip {
 	
 	
 	
-	public Map<Integer, Edge> fillStopsMap() { // för framtida påfyllningar
+	public Map<Integer, Edge> fillStopsMap() { 
 		Map<Integer, Edge> newMap = new HashMap<>();
 		for (Edge edge : this.edges) {
 			newMap.put(edge.getfromStopInOrder(), edge);
@@ -85,8 +79,8 @@ public class Trip {
         HashSet<Stop> stops = new HashSet<>();
 
         if (edges.isEmpty()) {
-        	System.out.println("EHHHHH stops is empty mannen");
-            return stops; // Undviker krascher om edges är tom
+        	System.out.println("No stops");
+            return stops; 
         }
 
         for (Edge edge : this.getEdges()) {
