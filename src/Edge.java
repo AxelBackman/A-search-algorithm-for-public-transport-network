@@ -93,5 +93,5 @@ public class Edge {
 	}
 	
 	@Override
-	public String toString() { return "Från " + from.getName() + " Till " + destination.getName() + " kl: " +  departureTimeString + ", " + " Tar " + weight + " minuter " + tripId; }
+	public String toString() { return "From " + from.getName() + " To " + destination.getName() + " Time: " +  departureTimeString + ", " + " Takes " + weight + " minutes " + tripId; }
 }
