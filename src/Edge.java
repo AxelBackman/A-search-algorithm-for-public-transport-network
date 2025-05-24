@@ -2,26 +2,17 @@ import java.util.*;
 
 public class Edge {
 	
-	/* Denna klassen Representerar åkvägen mellan stationer
-	 * En busslinje med 6 stopp har därmed 6 kanter där varje anges som type buss, och time anges från sl_stop_times.txt
-	 * 
-	 * Framtida implementeringar: datum för att hålla koll på olika dagar
-	 * skapa kanter mellan stationer inom ett visst område då man kan gå. 
-	 */
-	
 	private Long tripId;
 	private String headSign;
 	private Stop from;
 	private Stop destination;
 	private int weight;
-	private int destinationArrivalTime; // tid när man anläner på Noden to
-	private int fromDepartureTime; // tid när man åker från noden from
+	private int destinationArrivalTime; 
+	private int fromDepartureTime;
 	private String departureTimeString;
 	private static List<Edge> allEdges = new ArrayList<>();
-	private int fromStopInOrder; // vilket nr av stopp på linjen from noden är
-	private int toStopInOrder; // vilket nr av stopp på linjen to noden är
-	
-	
+	private int fromStopInOrder; 
+	private int toStopInOrder; 
 	
 	public Edge(
 			Long tripId, 
@@ -44,7 +35,7 @@ public class Edge {
 		this.departureTimeString = departureTimeString;
 		this.headSign = headSign;
 		allEdges.add(this);
-		this.fromStopInOrder = fromStopInOrder; //överflödiga? kan bara vara i Trip
+		this.fromStopInOrder = fromStopInOrder;
 		this.toStopInOrder = toStopInOrder;
 	}
 	
@@ -69,7 +60,7 @@ public class Edge {
 		this.departureTimeString = departureTimeString;
 		this.headSign = headSign;
 		allEdges.add(this);
-		this.fromStopInOrder = fromStopInOrder; //överflödiga? kan bara vara i Trip
+		this.fromStopInOrder = fromStopInOrder; 
 		this.toStopInOrder = toStopInOrder;
 		
 	}
@@ -100,10 +91,6 @@ public class Edge {
 		}
 		return edgesFromId;
 	}
-	
-
-	
-
 	
 	@Override
 	public String toString() { return "Från " + from.getName() + " Till " + destination.getName() + " kl: " +  departureTimeString + ", " + " Tar " + weight + " minuter " + tripId; }
