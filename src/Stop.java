@@ -2,12 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-/*
- * class represents stop / station
- * 
- */
-
 public class Stop {
 	
 	private int id;
